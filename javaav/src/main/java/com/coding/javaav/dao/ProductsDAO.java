@@ -1,6 +1,10 @@
 package com.coding.javaav.dao;
 
+
 import com.coding.javaav.models.Category;
+
+import com.coding.javaav.models.Products;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -13,8 +17,10 @@ public class ProductsDAO {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public List<Category> listAll(){
-        String sql = "SELECT * FROM Product";
+
+    public List<Products> listAll(){
+        String sql = "SELECT * FROM Products";
+
         //List<Category> list = new ArrayList<>();
 
         /*try(Connection co =  DriverManager.getConnection("jdbc:mysql://localhost:3306/javaav", "root", "vincent")) {
@@ -50,12 +56,12 @@ public class ProductsDAO {
         });*/
 
 
-        List<Category> list = jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(Category.class));
+        List<Products> list = jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(Products.class));
 
         return list;
     }
 
-    public void addUser(String lastname, String firstname, String email, String phone){
-        String sql = "INSERT INTO 'users' ('lastname', 'firstname', 'email', 'phone') VALUES ('"+ lastname+"','"+firstname+",";
+    public void addProducts(Integer id, String rating, String name, String createdAt, Integer categoryId){
+        String sql = "INSERT INTO 'Products' ('rating', 'name', 'createAt', 'categoryId') VALUES ('"+ rating+"','"+name+"','"+createdAt+"','"+categoryId+"')";
     }
 }
