@@ -1,16 +1,16 @@
 package com.coding.javaav;
 
-import com.coding.javaav.dao.UserDAO;
+import com.coding.javaav.dao.CategoryDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-public class UsersController {
+public class CategoryController {
 
     @Autowired
-    private UserDAO userService;
+    private CategoryDAO userService;
 
     @RequestMapping("/users")
     public String index(Model model){
