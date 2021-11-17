@@ -12,15 +12,15 @@ public class CategoryController {
     @Autowired
     private CategoryDAO userService;
 
-    @RequestMapping("/users")
+    @RequestMapping("/category")
     public String index(Model model){
-        model.addAttribute("listUsers", userService.listAll());
+        model.addAttribute("listCategory", userService.listAll());
         return "index";
     }
 
-    @RequestMapping("/users/add")
+    @RequestMapping("/category/add")
     public String add(Model model){
-        model.addAttribute("listUsers", userService.listAll());
+        model.addAttribute("listCategory", userService.listAll());
         return "index";
     }
 

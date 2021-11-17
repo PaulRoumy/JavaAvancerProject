@@ -14,7 +14,7 @@ public class CategoryDAO {
     private JdbcTemplate jdbcTemplate;
 
     public List<Category> listAll(){
-        String sql = "SELECT * FROM users";
+        String sql = "SELECT * FROM category";
         //List<Category> list = new ArrayList<>();
 
         /*try(Connection co =  DriverManager.getConnection("jdbc:mysql://localhost:3306/javaav", "root", "vincent")) {
@@ -55,7 +55,7 @@ public class CategoryDAO {
         return list;
     }
 
-    public void addUser(String lastname, String firstname, String email, String phone){
-        String sql = "INSERT INTO 'users' ('lastname', 'firstname', 'email', 'phone') VALUES ('"+ lastname+"','"+firstname+",";
+    public void addUser(String id, String name){
+        String sql = "INSERT INTO 'category' ('id', 'name') VALUES ('"+ id+"','"+name+",";
     }
 }
