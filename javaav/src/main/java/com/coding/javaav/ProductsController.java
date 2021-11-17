@@ -6,14 +6,23 @@ import com.coding.javaav.models.Products;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.DayOfWeek;
+import java.util.List;
+
 @Controller
 public class ProductsController {
     @Autowired
+    private JdbcTemplate jdbcTemplate;
+
+    @Autowired
     private ProductsDAO productsService;
+
 
 
     @RequestMapping(value = "/products/add", method = RequestMethod.POST)
@@ -29,7 +38,10 @@ public class ProductsController {
     @RequestMapping("/products")
     public String pagination(@RequestParam(value= "range") String range){
         System.out.println(range);
+        String sql = "SELECT * FROM Products";
 
+
+        List<Products> list = jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(Products.class));
 
 
         return "pagination";
