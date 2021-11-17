@@ -61,7 +61,8 @@ public class ProductsDAO {
         return list;
     }
 
-    public void addProducts(Integer id, String rating, String name, String createdAt, Integer categoryId){
-        String sql = "INSERT INTO 'Products' ('rating', 'name', 'createAt', 'categoryId') VALUES ('"+ rating+"','"+name+"','"+createdAt+"','"+categoryId+"')";
+    public int addProducts(Products p){
+        String sql = "INSERT INTO Products (rating, name, type, categoryId) VALUES (?,?,?,?)";
+        return jdbcTemplate.update(sql, p.getRating(), p.getname(), p.getType(),p.getCategoryId());
     }
 }
