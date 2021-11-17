@@ -55,7 +55,7 @@ public class CategoryDAO {
         return list;
     }
 
-    public void addUser(String id, String name){
-        String sql = "INSERT INTO 'category' ('id', 'name') VALUES ('"+ id+"','"+name+",";
+    public void addCategory(Integer id, String name){
+        String sql = "INSERT INTO 'category' ('id', 'name') VALUES ('"+ id+"','"+name+"')";
     }
 }
