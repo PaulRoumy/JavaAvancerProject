@@ -1,6 +1,5 @@
 package com.coding.javaav.dao;
 
-import com.coding.javaav.models.Products;
 import com.coding.javaav.models.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -14,7 +13,7 @@ public class ProductsDAO {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public List<Products> listAll(){
+    public List<Category> listAll(){
         String sql = "SELECT * FROM Product";
         //List<Category> list = new ArrayList<>();
 
