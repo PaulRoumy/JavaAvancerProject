@@ -32,4 +32,10 @@ public class ProductsController {
 
         return "pagination";
     }
+
+    @RequestMapping(value ="/products/supp/{id}",method= RequestMethod.DELETE)
+    public String supp(@PathVariable int id){
+        productsService.suppProducts(id);
+        return "index";
+    }
 }
