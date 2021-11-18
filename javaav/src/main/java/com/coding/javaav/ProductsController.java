@@ -16,9 +16,6 @@ import com.coding.javaav.dao.ProductsDAO;
 import org.apache.velocity.exception.ResourceNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -168,11 +165,11 @@ public class ProductsController {
     }
 
     @RequestMapping(value = "/products/order", method = RequestMethod.GET)
-    public String tri(@RequestParam(value = "asc") String value1, @RequestParam(value = "desc") String value2) {
+    public ResponseEntity<List<Products>> tri(@RequestParam(value = "asc") String value1, @RequestParam(value = "desc") String value2) {
         String sql = "SELECT * FROM Products ORDER BY ? ASC, ? DESC";
         if ((value1.equals("rating") && value2.equals("name")) || value1.equals("name") && value2.equals("rating")) {
             List<Products> list = jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(Products.class), value1, value2);
-            return "tri";
+            return ResponseEntity.ok().body(list);
         } else {
             throw new ResourceNotFoundException("value is not right");
 
