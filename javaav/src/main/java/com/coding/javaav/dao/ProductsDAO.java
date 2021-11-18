@@ -70,7 +70,7 @@ public class ProductsDAO {
         String sql= "DELETE FROM Products WHERE id = ?";
         return jdbcTemplate.update(sql, id);
     }
-    public Products findById(Long id) {
+    public Products findById(int id) {
         String sql = "SELECT * FROM Products WHERE id=? ;";
         return jdbcTemplate.queryForObject(sql, BeanPropertyRowMapper.newInstance(Products.class), id);
     }

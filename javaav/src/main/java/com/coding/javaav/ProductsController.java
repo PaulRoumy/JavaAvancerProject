@@ -12,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.DayOfWeek;
 import java.util.List;
 
 @Controller
@@ -49,28 +48,36 @@ public class ProductsController {
 
     @RequestMapping(value ="/products/supp/{id}",method= RequestMethod.DELETE)
     public String supp(@PathVariable int id){
-        productsService.suppProducts(id);
+       int i =productsService.suppProducts(id);
+        if(i == 1) {
+            throw  new ResourceNotFoundException("Product not found on :: " + id);
+        }
         return "index";
     }
 
     @RequestMapping(value = "/products/getById/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Products> getById(@PathVariable long id, Model model){
+    public ResponseEntity<Products> getById(@PathVariable int id, Model model){
         Products p = productsService.findById(id);
         if(p == null) {
-            throw  new ResourceNotFoundException("User not found on :: " + id);
+
+            throw  new ResourceNotFoundException("Product not found on :: " + id);
         }
         return ResponseEntity.ok().body(p);
     }
 
     @RequestMapping(value = "/products/modify/{id}", method = RequestMethod.PATCH)
-    public String modify(@PathVariable int id, @RequestBody Products input){
+    public ResponseEntity<Products> modify(@PathVariable int id, @RequestBody Products input) throws ResourceNotFoundException{
         Products p = new Products();
         p.setCategoryId(input.getCategoryId());
         p.setRating(input.getRating());
         p.setname(input.getname());
         p.setType(input.getType());
-        productsService.modifyProducts(id, p);
-
-        return "index";
+        int i = productsService.modifyProducts(id, p);
+        if(i == 1) {
+            throw  new ResourceNotFoundException("Product not found on :: " + id);
+        }
+        Products pr = productsService.findById(id);
+        pr = productsService.findById(id);
+        return ResponseEntity.ok().body(pr);
+        }
     }
-}
