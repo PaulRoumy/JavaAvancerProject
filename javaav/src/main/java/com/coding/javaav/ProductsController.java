@@ -49,7 +49,7 @@ public class ProductsController {
     @RequestMapping(value ="/products/supp/{id}",method= RequestMethod.DELETE)
     public String supp(@PathVariable int id){
        int i =productsService.suppProducts(id);
-        if(i == 1) {
+        if(i != 1) {
             throw  new ResourceNotFoundException("Product not found on :: " + id);
         }
         return "index";
@@ -73,7 +73,7 @@ public class ProductsController {
         p.setname(input.getname());
         p.setType(input.getType());
         int i = productsService.modifyProducts(id, p);
-        if(i == 1) {
+        if(i != 1) {
             throw  new ResourceNotFoundException("Product not found on :: " + id);
         }
         Products pr = productsService.findById(id);
