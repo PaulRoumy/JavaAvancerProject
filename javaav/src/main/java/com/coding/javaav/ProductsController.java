@@ -23,9 +23,8 @@ public class ProductsController {
     private ProductsDAO productsService;
 
 
-
     @RequestMapping(value = "/products/add", method = RequestMethod.POST)
-    public String add(@RequestBody Products input){
+    public String add(@RequestBody Products input) {
         Products p = new Products();
         p.setCategoryId(input.getCategoryId());
         p.setRating(input.getRating());
@@ -34,8 +33,9 @@ public class ProductsController {
         productsService.addProducts(p);
         return "index";
     }
+
     @RequestMapping("/products")
-    public String pagination(@RequestParam(value= "range") String range){
+    public String pagination(@RequestParam(value = "range") String range) {
         System.out.println(range);
         String sql = "SELECT * FROM Products";
 
@@ -46,38 +46,52 @@ public class ProductsController {
         return "pagination";
     }
 
-    @RequestMapping(value ="/products/supp/{id}",method= RequestMethod.DELETE)
-    public String supp(@PathVariable int id){
-       int i =productsService.suppProducts(id);
-        if(i != 1) {
-            throw  new ResourceNotFoundException("Product not found on :: " + id);
+    @RequestMapping(value = "/products/supp/{id}", method = RequestMethod.DELETE)
+    public String supp(@PathVariable int id) {
+        int i = productsService.suppProducts(id);
+        if (i != 1) {
+            throw new ResourceNotFoundException("Product not found on :: " + id);
         }
         return "index";
     }
 
     @RequestMapping(value = "/products/getById/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Products> getById(@PathVariable int id, Model model){
+    public ResponseEntity<Products> getById(@PathVariable int id, Model model) {
         Products p = productsService.findById(id);
-        if(p == null) {
+        if (p == null) {
 
-            throw  new ResourceNotFoundException("Product not found on :: " + id);
+            throw new ResourceNotFoundException("Product not found on :: " + id);
         }
         return ResponseEntity.ok().body(p);
     }
 
     @RequestMapping(value = "/products/modify/{id}", method = RequestMethod.PATCH)
-    public ResponseEntity<Products> modify(@PathVariable int id, @RequestBody Products input) throws ResourceNotFoundException{
+    public ResponseEntity<Products> modify(@PathVariable int id, @RequestBody Products input) throws ResourceNotFoundException {
         Products p = new Products();
         p.setCategoryId(input.getCategoryId());
         p.setRating(input.getRating());
         p.setname(input.getname());
         p.setType(input.getType());
         int i = productsService.modifyProducts(id, p);
-        if(i != 1) {
-            throw  new ResourceNotFoundException("Product not found on :: " + id);
+        if (i != 1) {
+            throw new ResourceNotFoundException("Product not found on :: " + id);
         }
         Products pr = productsService.findById(id);
         pr = productsService.findById(id);
         return ResponseEntity.ok().body(pr);
-        }
     }
+
+    @RequestMapping(value = "/products/order", method = RequestMethod.GET)
+    public String tri(@RequestParam(value = "asc") String value1, @RequestParam(value = "desc") String value2) {
+        String sql = "SELECT * FROM Products ORDER BY ? ASC, ? DESC";
+        if ((value1.equals("rating") && value2.equals("name")) || value1.equals("name") && value2.equals("rating")) {
+            List<Products> list = jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(Products.class), value1, value2);
+            return "tri";
+        } else {
+            throw new ResourceNotFoundException("value is not right");
+
+        }
+
+    }
+}
+

@@ -48,7 +48,7 @@ public class CategoryController {
     public ResponseEntity<Category> getById(@PathVariable long id, Model model){
         Category c = categoryService.findById(id);
         if(c == null) {
-            throw  new ResourceNotFoundException("User not found on :: " + id);
+            throw  new ResourceNotFoundException("Category not found on :: " + id);
         }
         return ResponseEntity.ok().body(c);
     }
