@@ -1,6 +1,7 @@
 package com.coding.javaav.dao;
 
 import com.coding.javaav.models.Category;
+import com.coding.javaav.models.Products;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -14,48 +15,28 @@ public class CategoryDAO {
     private JdbcTemplate jdbcTemplate;
 
     public List<Category> listAll(){
-        String sql = "SELECT * FROM category";
+        String sql = "SELECT * FROM Category";
         //List<Category> list = new ArrayList<>();
-
-        /*try(Connection co =  DriverManager.getConnection("jdbc:mysql://localhost:3306/javaav", "root", "vincent")) {
-            try(Statement ps = co.createStatement()) {
-                try(ResultSet res = ps.executeQuery(sql)) {
-                    while (res.next()) {
-                        Category user = new Category();
-                        user.setId(res.getLong("id"));
-                        user.setPhone(res.getString("phone"));
-                        user.setEmail(res.getString("email"));
-                        user.setFirstname(res.getString("firstname"));
-                        user.setLastname(res.getString("lastname"));
-                        list.add(user);
-                    }
-                    return list;
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
-       /*List<Category> list = jdbcTemplate.query(sql, new RowMapper<Category>() {
-
-            @Override
-            public Category mapRow(ResultSet rs, int rowNum) throws SQLException {
-                Category user = new Category();
-                user.setId(rs.getLong("id"));
-                user.setPhone(rs.getString("phone"));
-                user.setEmail(rs.getString("email"));
-                user.setFirstname(rs.getString("firstname"));
-                user.setLastname(rs.getString("lastname"));
-                return user;
-            }
-        });*/
-
 
         List<Category> list = jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(Category.class));
 
         return list;
     }
 
-    public void addCategory(Integer id, String name){
-        String sql = "INSERT INTO 'category' ('id', 'name') VALUES ('"+ id+"','"+name+"')";
+    public int addCategory(Category c){
+        String sql = "INSERT INTO Category (name) VALUES (?)";
+        return jdbcTemplate.update(sql, c.getName());
+    }
+    public int suppCategory(int id){
+        String sql= "DELETE FROM Category WHERE id = ?";
+        return jdbcTemplate.update(sql, id);
+    }
+    public int updateCategory(int id, Category c){
+        String sql="UPDATE Category SET name=? WHERE id=?";
+        return jdbcTemplate.update(sql, c.getName(),id);
+    }
+    public Category findById (long id){
+        String sql="SELECT * FROM Category WHERE id=? ";
+        return jdbcTemplate.queryForObject(sql, BeanPropertyRowMapper.newInstance(Category.class), id);
     }
 }
