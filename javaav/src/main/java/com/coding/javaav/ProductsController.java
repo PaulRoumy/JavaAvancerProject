@@ -56,6 +56,12 @@ public class ProductsController {
 
     }
 
+    @RequestMapping("/products/all")
+    public ResponseEntity<List<Products>> all(){
+        return productsService.listAll();
+
+    }
+
 
 /*
     @RequestMapping(value ="/products/supp/{id}",method= RequestMethod.DELETE)
@@ -71,7 +77,6 @@ public class ProductsController {
             @RequestParam(value="rating",required = false) String rating
             ){
         return productsService.recherche(name,type,rating);
-
     }
 
 

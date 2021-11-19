@@ -33,47 +33,11 @@ public class ProductsDAO {
     private JdbcTemplate jdbcTemplate;
 
 
-    public List<Products> listAll(){
+    public ResponseEntity<List<Products>> listAll(){
         String sql = "SELECT * FROM Products";
-
-        //List<Category> list = new ArrayList<>();
-
-        /*try(Connection co =  DriverManager.getConnection("jdbc:mysql://localhost:3306/javaav", "root", "vincent")) {
-            try(Statement ps = co.createStatement()) {
-                try(ResultSet res = ps.executeQuery(sql)) {
-                    while (res.next()) {
-                        Category user = new Category();
-                        user.setId(res.getLong("id"));
-                        user.setPhone(res.getString("phone"));
-                        user.setEmail(res.getString("email"));
-                        user.setFirstname(res.getString("firstname"));
-                        user.setLastname(res.getString("lastname"));
-                        list.add(user);
-                    }
-                    return list;
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
-       /*List<Category> list = jdbcTemplate.query(sql, new RowMapper<Category>() {
-
-            @Override
-            public Category mapRow(ResultSet rs, int rowNum) throws SQLException {
-                Category user = new Category();
-                user.setId(rs.getLong("id"));
-                user.setPhone(rs.getString("phone"));
-                user.setEmail(rs.getString("email"));
-                user.setFirstname(rs.getString("firstname"));
-                user.setLastname(rs.getString("lastname"));
-                return user;
-            }
-        });*/
-
-
         List<Products> list = jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(Products.class));
 
-        return list;
+       return ResponseEntity.ok().body(list);
     }
 
     public int addProducts(Products p){
