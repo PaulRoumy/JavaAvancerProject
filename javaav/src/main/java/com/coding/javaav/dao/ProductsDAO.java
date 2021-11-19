@@ -5,10 +5,15 @@ import com.coding.javaav.models.Category;
 
 import com.coding.javaav.models.Products;
 
+import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -78,5 +83,17 @@ public class ProductsDAO {
     public int modifyProducts(int id, Products p){
         String sql="UPDATE Products SET type=?, name=?, rating=?, categoryId=? WHERE id=?";
         return jdbcTemplate.update(sql, p.getType(), p.getname(), p.getRating(),p.getCategoryId(),id);
+    }
+
+    public ResponseEntity<List<Products>> tri(String value1,String value2) {
+        String sql = "SELECT * FROM Products ORDER BY ? ASC, ? DESC";
+        if ((value1.equals("rating") && value2.equals("name")) || value1.equals("name") && value2.equals("rating")) {
+            List<Products> list = jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(Products.class), value1, value2);
+            return ResponseEntity.ok().body(list);
+        } else {
+            throw new ResourceNotFoundException("value is not right");
+
+        }
+
     }
 }
